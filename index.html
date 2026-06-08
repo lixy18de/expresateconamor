@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exprésate con Amor</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#b5194e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Exprésate con Amor">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+
+
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --rojo:        #b5194e;
+            --rojo-oscuro: #7d1035;
+            --rojo-claro:  #f7e0e8;
+            --crema:       #fdf8f5;
+            --crema-osc:   #f5ede6;
+            --dorado:      #c9974a;
+            --dorado-claro:#f0e0c4;
+            --texto:       #2a1520;
+            --texto-sub:   #8a5a6a;
+            --blanco:      #ffffff;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: var(--crema);
+            color: var(--texto);
+            overflow-x: hidden;
+        }
+
+        /* ── CURSOR PERSONALIZADO ── */
+        * { cursor: none; }
+        .cursor {
+            width: 10px; height: 10px;
+            background: var(--rojo);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease;
+            mix-blend-mode: multiply;
+        }
+        .cursor-ring {
+            width: 32px; height: 32px;
+            border: 1px solid var(--rojo);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.12s ease;
+            opacity: 0.6;
+        }
+
+        /* ── NAVBAR ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 500;
+            padding: 1.2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(253,248,245,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(181,25,78,0.12);
+            transition: all 0.3s;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--rojo-oscuro);
+            letter-spacing: 0.02em;
+        }
+
+        .logo em {
+            font-style: italic;
+            color: var(--dorado);
+        }
+
+        .nav-links { display: flex; gap: 2.5rem; align-items: center; }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--texto-sub);
+            font-size: 0.82rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px; left: 0;
+            width: 0; height: 1px;
+            background: var(--rojo);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--rojo); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8rem 4rem 4rem 6rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--dorado);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-tag::before {
+            content: '';
+            display: block;
+            width: 30px; height: 1px;
+            background: var(--dorado);
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 5vw, 5rem);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--texto);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--rojo);
+            display: block;
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            color: var(--texto-sub);
+            line-height: 1.8;
+            max-width: 380px;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        .btn-primario {
+            background: var(--rojo);
+            color: white;
+            padding: 0.9rem 2.2rem;
+            border-radius: 2px;
+            text-decoration: none;
+            font-size: 0.82rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 1px solid var(--rojo);
+        }
+
+        .btn-primario:hover {
+            background: var(--rojo-oscuro);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(181,25,78,0.25);
+        }
+
+        .btn-secundario {
+            background: transparent;
+            color: var(--rojo);
+            padding: 0.9rem 2.2rem;
+            border-radius: 2px;
+            text-decoration: none;
+            font-size: 0.82rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 500;
+            border: 1px solid var(--rojo);
+            transition: all 0.3s;
+        }
+
+        .btn-secundario:hover {
+            background: var(--rojo-claro);
+            transform: translateY(-2px);
+        }
+
+        .hero-right {
+            position: relative;
+            background: var(--rojo-claro);
+            overflow: hidden;
+        }
+
+        .hero-flor-grande {
+            position: absolute;
+            font-size: 22rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.18;
+            animation: flotar 6s ease-in-out infinite;
+            line-height: 1;
+        }
+
+        .hero-flor-deco {
+            position: absolute;
+            font-size: 5rem;
+            animation: flotar 4s ease-in-out infinite;
+        }
+
+        .hero-flor-deco:nth-child(2) { top: 15%; right: 20%; animation-delay: -1s; }
+        .hero-flor-deco:nth-child(3) { bottom: 20%; left: 15%; animation-delay: -2s; font-size: 3rem; }
+        .hero-flor-deco:nth-child(4) { top: 60%; right: 10%; animation-delay: -3s; font-size: 3.5rem; }
+
+        .hero-card {
+            position: absolute;
+            bottom: 3rem;
+            right: 3rem;
+            background: white;
+            border-radius: 4px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            min-width: 180px;
+            border-left: 3px solid var(--rojo);
+        }
+
+        .hero-card-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            color: var(--rojo);
+            font-weight: 300;
+            line-height: 1;
+        }
+
+        .hero-card-txt {
+            font-size: 0.75rem;
+            color: var(--texto-sub);
+            letter-spacing: 0.05em;
+            margin-top: 0.3rem;
+        }
+
+        @keyframes flotar {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-15px); }
+        }
+
+        /* ── BANDA DORADA ── */
+        .banda {
+            background: var(--rojo-oscuro);
+            padding: 1.2rem 3rem;
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .banda-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--dorado-claro);
+            font-size: 0.82rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .banda-item span { font-size: 1.2rem; }
+
+        /* ── SECCIÓN TÍTULOS ── */
+        .sec-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .sec-header .etiqueta {
+            display: inline-block;
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--dorado);
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+        }
+
+        .sec-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 300;
+            color: var(--texto);
+            line-height: 1.2;
+        }
+
+        .sec-header h2 em {
+            font-style: italic;
+            color: var(--rojo);
+        }
+
+        .sec-header p {
+            color: var(--texto-sub);
+            font-size: 0.95rem;
+            margin-top: 0.8rem;
+            font-weight: 300;
+        }
+
+        .divisor {
+            width: 60px; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--dorado), transparent);
+            margin: 1rem auto 0;
+        }
+
+        /* ── CATÁLOGO ── */
+        #catalogo {
+            padding: 6rem 3rem;
+            background: var(--crema);
+        }
+
+        /* Filtros */
+        .filtros {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filtro-btn {
+            padding: 0.5rem 1.4rem;
+            border: 1px solid var(--rojo-claro);
+            background: transparent;
+            color: var(--texto-sub);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            letter-spacing: 0.06em;
+            cursor: none;
+            font-family: 'Jost', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .filtro-btn:hover,
+        .filtro-btn.activo {
+            background: var(--rojo);
+            color: white;
+            border-color: var(--rojo);
+        }
+
+        /* Grid de productos */
+        .catalogo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .producto-card {
+            background: var(--blanco);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(181,25,78,0.08);
+            transition: all 0.35s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .producto-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(181,25,78,0.14);
+            border-color: rgba(181,25,78,0.2);
+        }
+
+        .producto-badge {
+            position: absolute;
+            top: 1rem; left: 1rem;
+            background: var(--rojo);
+            color: white;
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2px;
+            z-index: 2;
+            font-weight: 500;
+        }
+
+        .producto-badge.dorado {
+            background: var(--dorado);
+        }
+
+        .producto-img {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .producto-card:hover .producto-img { transform: scale(1.03); }
+
+        .bg-rosa    { background: linear-gradient(135deg, #fce4ec, #ffd6e7); }
+        .bg-rojo    { background: linear-gradient(135deg, #ffe0e6, #ffc2ce); }
+        .bg-crema   { background: linear-gradient(135deg, #fff8f0, #fdebd0); }
+        .bg-lila    { background: linear-gradient(135deg, #f3e5f5, #e8d5f5); }
+        .bg-verde   { background: linear-gradient(135deg, #e8f5e9, #d4edda); }
+        .bg-dorado  { background: linear-gradient(135deg, #fff8e1, #fdecc8); }
+        .bg-multicolor { background: linear-gradient(135deg, #fce4ec, #e8f5e9, #e3f2fd); }
+
+        .producto-info {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .producto-cat {
+            font-size: 0.68rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--dorado);
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+        }
+
+        .producto-nombre {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--texto);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .producto-desc {
+            font-size: 0.85rem;
+            color: var(--texto-sub);
+            line-height: 1.65;
+            font-weight: 300;
+            flex: 1;
+            margin-bottom: 1.2rem;
+        }
+
+        .producto-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--rojo-claro);
+            padding-top: 1rem;
+        }
+
+        .producto-precio {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--rojo);
+            line-height: 1;
+        }
+
+        .producto-precio small {
+            font-family: 'Jost', sans-serif;
+            font-size: 0.7rem;
+            color: var(--texto-sub);
+            display: block;
+            font-weight: 300;
+            margin-top: 2px;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-pedir {
+            background: var(--texto);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.3rem;
+            border-radius: 2px;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-family: 'Jost', sans-serif;
+            font-weight: 500;
+            cursor: none;
+            transition: all 0.25s;
+        }
+
+        .btn-pedir:hover {
+            background: var(--rojo);
+            transform: translateY(-1px);
+        }
+
+        /* ── BANNER CENTRAL ── */
+        .banner-medio {
+            background: var(--rojo-oscuro);
+            padding: 5rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner-medio::before {
+            content: '🌹';
+            position: absolute;
+            font-size: 18rem;
+            top: 50%;
+            left: -4rem;
+            transform: translateY(-50%);
+            opacity: 0.06;
+            line-height: 1;
+        }
+
+        .banner-medio::after {
+            content: '🌹';
+            position: absolute;
+            font-size: 18rem;
+            top: 50%;
+            right: -4rem;
+            transform: translateY(-50%) scaleX(-1);
+            opacity: 0.06;
+            line-height: 1;
+        }
+
+        .banner-medio h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 300;
+            color: white;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .banner-medio h2 em {
+            font-style: italic;
+            color: var(--dorado-claro);
+        }
+
+        .banner-medio p {
+            color: rgba(255,255,255,0.65);
+            font-size: 0.95rem;
+            font-weight: 300;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+            position: relative;
+        }
+
+        /* ── SECCIÓN CONTACTO ── */
+        #contacto {
+            padding: 6rem 3rem;
+            background: var(--crema-osc);
+        }
+
+        .contacto-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .contacto-texto h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: var(--texto);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .contacto-texto h3 em {
+            font-style: italic;
+            color: var(--rojo);
+        }
+
+        .contacto-texto p {
+            color: var(--texto-sub);
+            font-size: 0.95rem;
+            line-height: 1.8;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .contacto-dato {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-size: 0.88rem;
+            color: var(--texto-sub);
+        }
+
+        .contacto-dato span { font-size: 1.2rem; }
+
+        .contacto-box {
+            background: var(--blanco);
+            border-radius: 4px;
+            padding: 2.5rem;
+            border: 1px solid rgba(181,25,78,0.1);
+            text-align: center;
+            box-shadow: 0 8px 40px rgba(181,25,78,0.07);
+        }
+
+        .wa-icono { font-size: 4rem; margin-bottom: 1rem; }
+
+        .contacto-box h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            color: var(--texto);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .contacto-box p {
+            color: var(--texto-sub);
+            font-size: 0.88rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #25d366;
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 2px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-whatsapp:hover {
+            background: #128c4e;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37,211,102,0.3);
+        }
+
+        .horario {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rojo-claro);
+            font-size: 0.78rem;
+            color: var(--texto-sub);
+            letter-spacing: 0.04em;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--texto);
+            padding: 2.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--dorado-claro);
+            font-weight: 300;
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.35);
+            font-size: 0.78rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── ANIMACIONES ENTRADA ── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .hero { grid-template-columns: 1fr; min-height: auto; }
+            .hero-left { padding: 7rem 1.5rem 3rem; }
+            .hero-right { height: 300px; }
+            .hero-flor-grande { font-size: 14rem; }
+            #catalogo { padding: 4rem 1.5rem; }
+            .contacto-grid { grid-template-columns: 1fr; gap: 2rem; }
+            #contacto { padding: 4rem 1.5rem; }
+            .banda { gap: 1.5rem; padding: 1.2rem 1.5rem; }
+            footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CURSOR -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">🌹 Exprésate <em>con Amor</em></div>
+        <div class="nav-links">
+            <a href="#catalogo">Catálogo</a>
+            <a href="#contacto">Contacto</a>
+            <a href="https://wa.me/50372931357?text=Hola!%20Me%20interesa%20un%20arreglo%20floral%20🌸" target="_blank">Pedir ahora</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-left">
+            <div class="hero-tag">Flores con sentimiento</div>
+            <h1>
+                Cada flor cuenta
+                <em>una historia de amor</em>
+            </h1>
+            <p class="hero-desc">
+                Arreglos florales únicos, elaborados con las flores más frescas
+                para hacer de cada momento algo inolvidable.
+            </p>
+            <div class="hero-btns">
+                <a href="#catalogo" class="btn-primario">Ver catálogo</a>
+                <a href="#contacto" class="btn-secundario">Contáctanos</a>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="hero-flor-grande">🌹</div>
+            <div class="hero-flor-deco">💐</div>
+            <div class="hero-flor-deco">🌸</div>
+            <div class="hero-flor-deco">🌷</div>
+            <div class="hero-card">
+                <div class="hero-card-num">100%</div>
+                <div class="hero-card-txt">Flores naturales<br>y frescas</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANDA -->
+    <div class="banda">
+        <div class="banda-item"><span>🌹</span> Rosas naturales</div>
+        <div class="banda-item"><span>✨</span> Rosas eternas</div>
+        <div class="banda-item"><span>🎁</span> Cajas personalizadas</div>
+        <div class="banda-item"><span>💌</span> Entrega a domicilio</div>
+        <div class="banda-item"><span>💬</span> Pedidos por WhatsApp</div>
+    </div>
+
+    <!-- CATÁLOGO -->
+    <section id="catalogo">
+        <div class="sec-header fade-up">
+            <div class="etiqueta">Nuestros arreglos</div>
+            <h2>Colección <em>Especial</em></h2>
+            <p>Cada arreglo es único, hecho con amor y dedicación para ti</p>
+            <div class="divisor"></div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filtros fade-up">
+            <button class="filtro-btn activo" onclick="filtrar('todos', this)">Todos</button>
+            <button class="filtro-btn" onclick="filtrar('eternas', this)">Rosas eternas</button>
+            <button class="filtro-btn" onclick="filtrar('naturales', this)">Rosas naturales</button>
+            <button class="filtro-btn" onclick="filtrar('cajas', this)">Cajas</button>
+            <button class="filtro-btn" onclick="filtrar('detalles', this)">Detalles</button>
+        </div>
+
+        <div class="catalogo-grid">
+
+            <!-- ROSAS ETERNAS -->
+            <div class="producto-card fade-up" data-cat="eternas">
+                <div class="producto-badge dorado">Más vendido</div>
+                <div class="producto-img bg-rojo">🌹</div>
+                <div class="producto-info">
+                    <div class="producto-cat">Rosa eterna</div>
+                    <div class="producto-nombre">Rosa Eterna Roja</div>
+                    <p class="producto-desc">Una sola rosa roja preservada que dura años sin perder su belleza. Símbolo eterno del amor verdadero.</p>
+                    <div class="producto-footer">
+                        <div class="producto-precio">$18.00 <small>Envío incluido</small></div>
+                        <button class="btn-pedir" onclick="pedir('Rosa Eterna Roja','$18.00')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="producto-card fade-up" data-cat="eternas">
+                <div class="producto-badge">Nuevo</div>
+                <div class="producto-img bg-lila">🪷</div>
+                <div class="producto-info">
+                    <div class="producto-cat">Rosa eterna</div>
+                    <div class="producto-nombre">Rosa Eterna Lila</div>
+                    <p class="producto-desc">Rosa preservada en tono lila, delicada y romántica. Ideal para expresar ternura y admiración.</p>
+                    <div class="producto-footer">
+                        <div class="producto-precio">$18.00 <small>Envío incluido</small></div>
+                        <button class="btn-pedir" onclick="pedir('Rosa Eterna Lila','$18.00')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="producto-card fade-up" data-cat="eternas">
+                <div class="producto-img bg-dorado">✨</div>
+                <div class="producto-info">
+                    <div class="producto-cat">Rosa eterna</div>
+                    <div class="producto-nombre">Rosa Eterna Dorada</div>
+                    <p class="producto-desc">Rosa bañada en detalles dorados, un regalo de lujo para alguien muy especial en tu vida.</p>
+                    <div class="producto-footer">
+                        <div class="producto-precio">$25.00 <small>Edición especial</small></div>
+                        <button class="btn-pedir" onclick="pedir('Rosa Eterna Dorada','$25.00')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROSAS NATURALES -->
+            <div class="producto-card fade-up" data-cat="naturales">
+                <div class="producto-badge">Clásico</div>
+                <div class="producto-img bg-rosa">💐</div>
+                <div class="producto-info">
+                    <div class="producto-cat">Rosa natural</div>
+                    <div class="producto-nombre">Docena de Rosas</div>
+                    <p class="producto-desc">12 rosas rojas frescas seleccionadas, envueltas en papel kraft con lazo de satén. El clásico que nunca falla.</p>
+                    <div class="producto-footer">
+                        <div class="producto-precio">$28.00 <small>Flores frescas</small></div>
+                        <button class="btn-pedir" onclick="pedir('Docena de Rosas','$28.00')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="producto-card fade-up" data-cat="naturales">
+                <div class="producto-img bg-multicolor">🌷</div>
+                <div class="producto-info">
+                    <div class="producto-cat">Rosa natural</div>
+                    <div class="producto-nombre">Bouquet Primaveral</div>
+                    <p class="producto-desc">Mezcla de rosas, tulipanes y flores de temporada en colores vibrantes. Frescura y alegría en un solo ramo.</p>
+                    <div class="producto-footer">
+                        <div class="producto-precio">$32.00 <small>Flores frescas</small></div>
+                        <button class="btn-pedir" onclick="pedir('Bouquet Primaveral','$32.00')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="producto-card fade-up" data-cat="naturales">
+                <div class="producto-badge dorado">Premium</div>
+                <div class="producto-img bg-rojo">🌹</div>
+                <div class="producto-info">
+                    <div class="producto-cat">Rosa natural</div>
+                    <div class="producto-nombre">Ramo de 24 Rosas</div>
+                    <p class="producto-desc">24 rosas de primera calidad, perfectas para bodas, aniversarios o declaraciones de amor. Impacto garantizado.</p>
+                    <div class="producto-footer">
+                        <div class="producto-precio">$48.00 <small>Flores premium</small></div>
+                        <button class="btn-pedir" onclick="pedir('Ramo de 24 Rosas','$48.00')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CAJAS -->
+            <div class="producto-card fade-up" data-cat="cajas">
+                <div class="producto-badge">Popular</div>
+                <div class="producto-img bg-crema">🎁</div>
+                <div class="producto-info">
+                    <div class="producto-cat">Caja personalizada</div>
+                    <div class="producto-nombre">Caja de Rosas Rojas</div>
+                    <p class="producto-desc">Caja elegante con 6 rosas rojas naturales, tarjeta personalizada y lazo de seda. Lista para regalar.</p>
+                    <div class="producto-footer">
+                        <div class="producto-precio">$35.00 <small>Con mensaje</small></div>
+                        <button class="btn-pedir" onclick="pedir('Caja de Rosas Rojas','$35.00')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="producto-card fade-up" data-cat="cajas">
+                <div class="producto-badge dorado">Exclusivo</div>
+                <div class="producto-img bg-rosa">💝</div>
+                <div class="producto-info">
+                    <div class="producto-cat">Caja personalizada</div>
+                    <div class="producto-nombre">Caja Romántica Mix</div>
+                    <p class="producto-desc">Caja con rosas eternas y naturales combinadas, chocolate belga y tarjeta con sobre. El regalo perfecto.</p>
+                    <div class="producto-footer">
+                        <div class="producto-precio">$55.00 <small>Incluye chocolate</small></div>
+                        <button class="btn-pedir" onclick="pedir('Caja Romántica Mix','$55.00')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="producto-card fade-up" data-cat="cajas">
+                <div class="producto-img bg-lila">🌸</div>
+                <div class="producto-info">
+                    <div class="producto-cat">Caja personalizada</div>
+                    <div class="producto-nombre">Caja Pastel Dreams</div>
+                    <p class="producto-desc">Caja con flores pastel, rosas eternas y detalles en tonos suaves. Delicada y femenina, ideal para cumpleaños.</p>
+                    <div class="producto-footer">
+                        <div class="producto-precio">$42.00 <small>Con mensaje</small></div>
+                        <button class="btn-pedir" onclick="pedir('Caja Pastel Dreams','$42.00')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DETALLES -->
+            <div class="producto-card fade-up" data-cat="detalles">
+                <div class="producto-img bg-verde">🧸</div>
+                <div class="producto-info">
+                    <div class="producto-cat">Detalle especial</div>
+                    <div class="producto-nombre">Rosas + Peluche</div>
+                    <p class="producto-desc">6 rosas naturales acompañadas de un tierno peluche de oso. El detalle más adorable para el amor de tu vida.</p>
+                    <div class="producto-footer">
+                        <div class="producto-precio">$38.00 <small>Con peluche</small></div>
+                        <button class="btn-pedir" onclick="pedir('Rosas + Peluche','$38.00')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="producto-card fade-up" data-cat="detalles">
+                <div class="producto-badge dorado">Limitado</div>
+                <div class="producto-img bg-dorado">💍</div>
+                <div class="producto-info">
+                    <div class="producto-cat">Detalle especial</div>
+                    <div class="producto-nombre">Set Sorpresa Total</div>
+                    <p class="producto-desc">Caja personalizada + rosas eternas + vela aromática + tarjeta. Todo lo que necesitas para sorprender de verdad.</p>
+                    <div class="producto-footer">
+                        <div class="producto-precio">$65.00 <small>Set completo</small></div>
+                        <button class="btn-pedir" onclick="pedir('Set Sorpresa Total','$65.00')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="producto-card fade-up" data-cat="detalles">
+                <div class="producto-img bg-rosa">💌</div>
+                <div class="producto-info">
+                    <div class="producto-cat">Detalle especial</div>
+                    <div class="producto-nombre">Rosas + Globos</div>
+                    <p class="producto-desc">Ramo de rosas frescas con globos de corazón. Ideal para celebraciones, cumpleaños y momentos especiales.</p>
+                    <div class="producto-footer">
+                        <div class="producto-precio">$40.00 <small>Con globos</small></div>
+                        <button class="btn-pedir" onclick="pedir('Rosas + Globos','$40.00')">Pedir</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- BANNER MEDIO -->
+    <div class="banner-medio">
+        <h2>¿Tienes algo <em>especial</em> en mente?</h2>
+        <p>Creamos arreglos personalizados para bodas, quinceañeras, aniversarios y cualquier ocasión que merezca flores.</p>
+        <a href="https://wa.me/50372931357?text=Hola!%20Quiero%20un%20arreglo%20personalizado%20🌹" target="_blank" class="btn-primario">Pedir arreglo personalizado</a>
+    </div>
+
+    <!-- CONTACTO -->
+    <section id="contacto">
+        <div class="sec-header fade-up">
+            <div class="etiqueta">Estamos para ti</div>
+            <h2>Escríbenos <em>hoy</em></h2>
+            <div class="divisor"></div>
+        </div>
+
+        <div class="contacto-grid">
+            <div class="contacto-texto fade-up">
+                <h3>Cada detalle<br><em>importa</em></h3>
+                <p>Nos encargamos de que cada arreglo llegue perfecto y a tiempo. Solo dinos la ocasión y nosotros hacemos el resto.</p>
+                <div class="contacto-dato"><span>📍</span> El Salvador</div>
+                <div class="contacto-dato"><span>📱</span> +503 7293-1357</div>
+                <div class="contacto-dato"><span>🕐</span> Lunes a Domingo · 8am – 7pm</div>
+                <div class="contacto-dato"><span>🚚</span> Entrega a domicilio disponible</div>
+            </div>
+
+            <div class="contacto-box fade-up">
+                <div class="wa-icono">💬</div>
+                <h4>Escríbenos por WhatsApp</h4>
+                <p>Respondemos rápido. Cuéntanos la ocasión y el presupuesto y encontramos el arreglo perfecto para ti.</p>
+                <a href="https://wa.me/50372931357?text=Hola!%20Me%20interesa%20un%20arreglo%20floral%20🌸%20¿Pueden%20ayudarme?" target="_blank" class="btn-whatsapp">
+                    <span>💬</span> Abrir WhatsApp
+                </a>
+                <div class="horario">Tiempo de respuesta: menos de 30 minutos</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">🌹 Exprésate con Amor</div>
+        <p>Flores para cada momento especial · El Salvador</p>
+    </footer>
+
+    <script>
+        // ── CURSOR ──
+        const cursor = document.getElementById('cursor');
+        const ring   = document.getElementById('cursorRing');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX - 5 + 'px';
+            cursor.style.top  = e.clientY - 5 + 'px';
+            ring.style.left   = e.clientX - 16 + 'px';
+            ring.style.top    = e.clientY - 16 + 'px';
+        });
+
+        // ── FILTROS ──
+        function filtrar(cat, btn) {
+            document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('activo'));
+            btn.classList.add('activo');
+            document.querySelectorAll('.producto-card').forEach(card => {
+                if (cat === 'todos' || card.dataset.cat === cat) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // ── WHATSAPP ──
+        function pedir(producto, precio) {
+            const numero  = '50372931357';
+            const mensaje = `Hola! Me interesa el arreglo *${producto}* (${precio}). ¿Está disponible? 🌹`;
+            window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`, '_blank');
+        }
+
+        // ── SCROLL ANIMATIONS ──
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 80);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // ── SERVICE WORKER ──
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(r => console.log('SW activo:', r.scope))
+                    .catch(e => console.error('SW error:', e));
+            });
+        }
+    </script>
+
+</body>
+</html>
