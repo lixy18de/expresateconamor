@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exprésate con Amor</title>
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#b5194e">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Exprésate con Amor">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" type="text/css"/>
-
 
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -61,6 +60,73 @@
             opacity: 0.6;
         }
 
+        /* ── BANNER INSTALAR PWA ── */
+        #install-banner {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 12px;
+            padding: 14px 18px;
+            box-shadow: 0 8px 32px rgba(181,25,78,0.18);
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            max-width: 360px;
+            width: 92%;
+            border-left: 4px solid var(--rojo);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        .install-banner-icon { font-size: 2rem; flex-shrink: 0; }
+
+        .install-banner-texto { flex: 1; }
+        .install-banner-texto strong {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: var(--texto);
+            font-weight: 600;
+        }
+        .install-banner-texto small {
+            font-size: 0.75rem;
+            color: var(--texto-sub);
+        }
+
+        #btn-instalar {
+            background: var(--rojo);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-family: 'Jost', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+        #btn-instalar:hover { background: var(--rojo-oscuro); }
+
+        #cerrar-banner {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #bbb;
+            cursor: pointer;
+            flex-shrink: 0;
+            line-height: 1;
+            padding: 2px;
+        }
+        #cerrar-banner:hover { color: #888; }
+
         /* ── NAVBAR ── */
         nav {
             position: fixed; top: 0; left: 0; right: 0;
@@ -83,10 +149,7 @@
             letter-spacing: 0.02em;
         }
 
-        .logo em {
-            font-style: italic;
-            color: var(--dorado);
-        }
+        .logo em { font-style: italic; color: var(--dorado); }
 
         .nav-links { display: flex; gap: 2.5rem; align-items: center; }
 
@@ -320,10 +383,7 @@
             line-height: 1.2;
         }
 
-        .sec-header h2 em {
-            font-style: italic;
-            color: var(--rojo);
-        }
+        .sec-header h2 em { font-style: italic; color: var(--rojo); }
 
         .sec-header p {
             color: var(--texto-sub);
@@ -344,7 +404,6 @@
             background: var(--crema);
         }
 
-        /* Filtros */
         .filtros {
             display: flex;
             justify-content: center;
@@ -373,7 +432,6 @@
             border-color: var(--rojo);
         }
 
-        /* Grid de productos */
         .catalogo-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -413,22 +471,39 @@
             font-weight: 500;
         }
 
-        .producto-badge.dorado {
-            background: var(--dorado);
-        }
+        .producto-badge.dorado { background: var(--dorado); }
 
+        /* ── IMAGEN REAL ── */
         .producto-img {
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
+            height: 220px;
             position: relative;
             overflow: hidden;
             transition: all 0.4s;
         }
 
-        .producto-card:hover .producto-img { transform: scale(1.03); }
+        .producto-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .producto-card:hover .producto-img img {
+            transform: scale(1.06);
+        }
+
+        /* Fallback si no hay imagen */
+        .producto-img-emoji {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            transition: all 0.4s;
+        }
+
+        .producto-card:hover .producto-img-emoji { transform: scale(1.03); }
 
         .bg-rosa    { background: linear-gradient(135deg, #fce4ec, #ffd6e7); }
         .bg-rojo    { background: linear-gradient(135deg, #ffe0e6, #ffc2ce); }
@@ -559,10 +634,7 @@
             position: relative;
         }
 
-        .banner-medio h2 em {
-            font-style: italic;
-            color: var(--dorado-claro);
-        }
+        .banner-medio h2 em { font-style: italic; color: var(--dorado-claro); }
 
         .banner-medio p {
             color: rgba(255,255,255,0.65);
@@ -574,7 +646,7 @@
             position: relative;
         }
 
-        /* ── SECCIÓN CONTACTO ── */
+        /* ── CONTACTO ── */
         #contacto {
             padding: 6rem 3rem;
             background: var(--crema-osc);
@@ -598,10 +670,7 @@
             margin-bottom: 1rem;
         }
 
-        .contacto-texto h3 em {
-            font-style: italic;
-            color: var(--rojo);
-        }
+        .contacto-texto h3 em { font-style: italic; color: var(--rojo); }
 
         .contacto-texto p {
             color: var(--texto-sub);
@@ -704,7 +773,7 @@
             letter-spacing: 0.05em;
         }
 
-        /* ── ANIMACIONES ENTRADA ── */
+        /* ── ANIMACIONES ── */
         .fade-up {
             opacity: 0;
             transform: translateY(30px);
@@ -729,30 +798,30 @@
             #contacto { padding: 4rem 1.5rem; }
             .banda { gap: 1.5rem; padding: 1.2rem 1.5rem; }
             footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+            #install-banner { bottom: 16px; }
         }
     </style>
 </head>
-   <button id="installBtn" style="display:none;">
-    📲 Instalar App
-</button>
-
-<script src="app.js"></script>
-</body>
-</html>
 <body>
-    
 
     <!-- CURSOR -->
     <div class="cursor" id="cursor"></div>
     <div class="cursor-ring" id="cursorRing"></div>
 
+    <!-- ── BANNER DE INSTALACIÓN PWA ── -->
+    <div id="install-banner">
+        <div class="install-banner-icon">🌹</div>
+        <div class="install-banner-texto">
+            <strong>Exprésate con Amor</strong>
+            <small>Instala la app en tu pantalla de inicio</small>
+        </div>
+        <button id="btn-instalar">Instalar</button>
+        <button id="cerrar-banner">✕</button>
+    </div>
+
     <!-- NAVBAR -->
     <nav>
-        <div class="logo">
-    🌹 Exprésate <em>con Amor</em>
-    <div class="desarrollado-por">Desarrollado por Lixy Gómez/2026</div>
-</div>
-    
+        <div class="logo">🌹 Exprésate <em>con Amor</em></div>
         <div class="nav-links">
             <a href="#catalogo">Catálogo</a>
             <a href="#contacto">Contacto</a>
@@ -819,9 +888,15 @@
         <div class="catalogo-grid">
 
             <!-- ROSAS ETERNAS -->
+            <!-- Imagen: rosa-eterna-roja.webp — cúpula de vidrio con rosa roja -->
             <div class="producto-card fade-up" data-cat="eternas">
                 <div class="producto-badge dorado">Más vendido</div>
-                <div class="producto-img bg-rojo">🌹</div>
+                <div class="producto-img">
+                    <img src="/images/rosa-eterna-roja.webp"
+                         alt="Rosa Eterna Roja en cúpula de vidrio"
+                         loading="lazy"
+                         onerror="this.parentElement.innerHTML='<div class=\'producto-img-emoji bg-rojo\'>🌹</div>'">
+                </div>
                 <div class="producto-info">
                     <div class="producto-cat">Rosa eterna</div>
                     <div class="producto-nombre">Rosa Eterna Roja</div>
@@ -833,9 +908,15 @@
                 </div>
             </div>
 
+            <!-- Imagen: rosa-eterna-lila.webp — ramo rosas lilas/moradas -->
             <div class="producto-card fade-up" data-cat="eternas">
                 <div class="producto-badge">Nuevo</div>
-                <div class="producto-img bg-lila">🪷</div>
+                <div class="producto-img">
+                    <img src="/images/rosa-eterna-lila.webp"
+                         alt="Rosa Eterna Lila"
+                         loading="lazy"
+                         onerror="this.parentElement.innerHTML='<div class=\'producto-img-emoji bg-lila\'>🪷</div>'">
+                </div>
                 <div class="producto-info">
                     <div class="producto-cat">Rosa eterna</div>
                     <div class="producto-nombre">Rosa Eterna Lila</div>
@@ -847,11 +928,17 @@
                 </div>
             </div>
 
+            <!-- Imagen: docena-eterna.webp — caja negra con rosas rojas -->
             <div class="producto-card fade-up" data-cat="eternas">
-                <div class="producto-img bg-dorado">✨</div>
+                <div class="producto-img">
+                    <img src="/images/docena-eterna.webp"
+                         alt="Docenas de rosas eternas"
+                         loading="lazy"
+                         onerror="this.parentElement.innerHTML='<div class=\'producto-img-emoji bg-dorado\'>✨</div>'">
+                </div>
                 <div class="producto-info">
                     <div class="producto-cat">Rosa eterna</div>
-                    <div class="producto-nombre">Docenas de rosas eternas en los colores que lo desee ya sea de un solo color o mixtas </div>
+                    <div class="producto-nombre">Docenas de rosas eternas en los colores que lo desee ya sea de un solo color o mixtas</div>
                     <p class="producto-desc">Rosa hechas con mucho amor, un regalo de lujo para alguien muy especial en tu vida.</p>
                     <div class="producto-footer">
                         <div class="producto-precio">$15.00 <small>Edición especial</small></div>
@@ -861,9 +948,15 @@
             </div>
 
             <!-- ROSAS NATURALES -->
+            <!-- Imagen: docena-rosas.webp — rosas rojas + globo feliz cumpleaños -->
             <div class="producto-card fade-up" data-cat="naturales">
                 <div class="producto-badge">Clásico</div>
-                <div class="producto-img bg-rosa">💐</div>
+                <div class="producto-img">
+                    <img src="/images/docena-rosas.webp"
+                         alt="Docena de Rosas"
+                         loading="lazy"
+                         onerror="this.parentElement.innerHTML='<div class=\'producto-img-emoji bg-rosa\'>💐</div>'">
+                </div>
                 <div class="producto-info">
                     <div class="producto-cat">Rosa natural</div>
                     <div class="producto-nombre">Docena de Rosas</div>
@@ -875,8 +968,14 @@
                 </div>
             </div>
 
+            <!-- Imagen: bouquet-primaveral.webp — caja rosada con flores y chocolates -->
             <div class="producto-card fade-up" data-cat="naturales">
-                <div class="producto-img bg-multicolor">🌷</div>
+                <div class="producto-img">
+                    <img src="/images/bouquet-primaveral.webp"
+                         alt="Bouquet Primaveral"
+                         loading="lazy"
+                         onerror="this.parentElement.innerHTML='<div class=\'producto-img-emoji bg-multicolor\'>🌷</div>'">
+                </div>
                 <div class="producto-info">
                     <div class="producto-cat">Rosa natural</div>
                     <div class="producto-nombre">Bouquet Primaveral</div>
@@ -888,9 +987,15 @@
                 </div>
             </div>
 
+            <!-- Imagen: ramo-12-rosas.webp — arreglo con osito, flores y globo aniversario -->
             <div class="producto-card fade-up" data-cat="naturales">
                 <div class="producto-badge dorado">Premium</div>
-                <div class="producto-img bg-rojo">🌹</div>
+                <div class="producto-img">
+                    <img src="/images/ramo-12-rosas.webp"
+                         alt="Ramo de 12 Rosas"
+                         loading="lazy"
+                         onerror="this.parentElement.innerHTML='<div class=\'producto-img-emoji bg-rojo\'>🌹</div>'">
+                </div>
                 <div class="producto-info">
                     <div class="producto-cat">Rosa natural</div>
                     <div class="producto-nombre">Ramo de 12 Rosas</div>
@@ -905,7 +1010,7 @@
             <!-- CAJAS -->
             <div class="producto-card fade-up" data-cat="cajas">
                 <div class="producto-badge">Popular</div>
-                <div class="producto-img bg-crema">🎁</div>
+                <div class="producto-img-emoji bg-crema">🎁</div>
                 <div class="producto-info">
                     <div class="producto-cat">Caja personalizada</div>
                     <div class="producto-nombre">Caja de Rosas Rojas</div>
@@ -919,7 +1024,7 @@
 
             <div class="producto-card fade-up" data-cat="cajas">
                 <div class="producto-badge dorado">Exclusivo</div>
-                <div class="producto-img bg-rosa">💝</div>
+                <div class="producto-img-emoji bg-rosa">💝</div>
                 <div class="producto-info">
                     <div class="producto-cat">Caja personalizada</div>
                     <div class="producto-nombre">Caja Romántica Mix</div>
@@ -932,11 +1037,11 @@
             </div>
 
             <div class="producto-card fade-up" data-cat="cajas">
-                <div class="producto-img bg-lila">🌸</div>
+                <div class="producto-img-emoji bg-lila">🌸</div>
                 <div class="producto-info">
                     <div class="producto-cat">Caja personalizada</div>
                     <div class="producto-nombre">Caja Pastel Dreams</div>
-                    <p class="producto-desc">Caja con flores colores  pasteles, rosas eternas y detalles en tonos suaves. Delicada y femenina, ideal para cumpleaños.</p>
+                    <p class="producto-desc">Caja con flores colores pasteles, rosas eternas y detalles en tonos suaves. Delicada y femenina, ideal para cumpleaños.</p>
                     <div class="producto-footer">
                         <div class="producto-precio">$42.00 <small>Con mensaje</small></div>
                         <button class="btn-pedir" onclick="pedir('Caja Pastel Dreams','$42.00')">Pedir</button>
@@ -946,7 +1051,7 @@
 
             <!-- DETALLES -->
             <div class="producto-card fade-up" data-cat="detalles">
-                <div class="producto-img bg-verde">🧸</div>
+                <div class="producto-img-emoji bg-verde">🧸</div>
                 <div class="producto-info">
                     <div class="producto-cat">Detalle especial</div>
                     <div class="producto-nombre">Rosas + Peluche</div>
@@ -960,7 +1065,7 @@
 
             <div class="producto-card fade-up" data-cat="detalles">
                 <div class="producto-badge dorado">Limitado</div>
-                <div class="producto-img bg-dorado">💍</div>
+                <div class="producto-img-emoji bg-dorado">💍</div>
                 <div class="producto-info">
                     <div class="producto-cat">Detalle especial</div>
                     <div class="producto-nombre">Set Sorpresa Total</div>
@@ -973,7 +1078,7 @@
             </div>
 
             <div class="producto-card fade-up" data-cat="detalles">
-                <div class="producto-img bg-rosa">💌</div>
+                <div class="producto-img-emoji bg-rosa">💌</div>
                 <div class="producto-info">
                     <div class="producto-cat">Detalle especial</div>
                     <div class="producto-nombre">Rosas + Globos</div>
@@ -1007,7 +1112,7 @@
             <div class="contacto-texto fade-up">
                 <h3>Cada detalle<br><em>importa</em></h3>
                 <p>Nos encargamos de que cada arreglo llegue perfecto y a tiempo. Solo dinos la ocasión y nosotros hacemos el resto.</p>
-                <div class="contacto-dato"><span>📍</span> El Salvador,Osicala morazan </div>
+                <div class="contacto-dato"><span>📍</span> El Salvador, Osicala Morazán</div>
                 <div class="contacto-dato"><span>📱</span> +503 7293-1357</div>
                 <div class="contacto-dato"><span>🕐</span> Lunes a Domingo · 7am – 8pm</div>
                 <div class="contacto-dato"><span>🚚</span> Entrega a domicilio disponible</div>
@@ -1072,6 +1177,47 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // ── BOTÓN INSTALAR PWA ──
+        let deferredPrompt;
+        const installBanner = document.getElementById('install-banner');
+        const btnInstalar   = document.getElementById('btn-instalar');
+        const cerrarBanner  = document.getElementById('cerrar-banner');
+        let bannerTimer;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            // Mostrar banner
+            installBanner.style.display = 'flex';
+
+            // Ocultarlo automáticamente después de 5 minutos
+            bannerTimer = setTimeout(() => {
+                installBanner.style.display = 'none';
+            }, 5 * 60 * 1000);
+        });
+
+        btnInstalar.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log('Instalación:', outcome);
+            deferredPrompt = null;
+            installBanner.style.display = 'none';
+            clearTimeout(bannerTimer);
+        });
+
+        cerrarBanner.addEventListener('click', () => {
+            installBanner.style.display = 'none';
+            clearTimeout(bannerTimer);
+        });
+
+        // Ocultar banner si ya está instalada
+        window.addEventListener('appinstalled', () => {
+            installBanner.style.display = 'none';
+            clearTimeout(bannerTimer);
+        });
 
         // ── SERVICE WORKER ──
         if ('serviceWorker' in navigator) {
