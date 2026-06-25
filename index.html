@@ -1196,47 +1196,60 @@
         let bannerTimer = null;
 
         function mostrarBanner() {
-            if (!deferredPrompt) return;
             installBanner.style.display = 'flex';
-            // Se oculta solo después de 5 minutos
+            clearTimeout(bannerTimer);
             bannerTimer = setTimeout(() => {
                 installBanner.style.display = 'none';
             }, 5 * 60 * 1000);
         }
 
-        // Captura el evento ANTES de que Chrome lo muestre solo
+        function ocultarBanner() {
+            installBanner.style.display = 'none';
+            clearTimeout(bannerTimer);
+        }
+
+        // Captura el evento antes de que Chrome lo muestre
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            console.log('PWA: listo para instalar');
-            // Pequeño delay para que el SW esté activo
-            setTimeout(mostrarBanner, 1500);
+            console.log('PWA: beforeinstallprompt capturado');
+            mostrarBanner();
         });
 
-        // Botón instalar
+        // Botón instalar — usa deferredPrompt si existe, si no abre el ⬇️ de Chrome
         btnInstalar.addEventListener('click', async () => {
-            if (!deferredPrompt) return;
-            installBanner.style.display = 'none';
-            clearTimeout(bannerTimer);
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log('Instalación:', outcome);
-            deferredPrompt = null;
+            ocultarBanner();
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log('Instalación:', outcome);
+                deferredPrompt = null;
+            }
         });
 
-        // Cerrar banner manualmente
-        cerrarBanner.addEventListener('click', () => {
-            installBanner.style.display = 'none';
-            clearTimeout(bannerTimer);
-        });
+        // Cerrar banner
+        cerrarBanner.addEventListener('click', ocultarBanner);
 
         // Ocultar si ya instaló
         window.addEventListener('appinstalled', () => {
-            installBanner.style.display = 'none';
-            clearTimeout(bannerTimer);
+            ocultarBanner();
             deferredPrompt = null;
-            console.log('PWA instalada correctamente');
+            console.log('PWA instalada');
         });
+
+        // SOLUCIÓN ANDROID: si después de 3 segundos no disparó el evento
+        // pero Chrome sí muestra el ⬇️, mostramos el banner igual
+        setTimeout(() => {
+            if (deferredPrompt) return; // ya se capturó, no hacer nada
+            // Verificar si el sitio cumple criterios PWA
+            if ('serviceWorker' in navigator && window.matchMedia('(display-mode: browser)').matches) {
+                // Mostrar banner informativo que dirige al ⬇️ de Chrome
+                installBanner.style.display = 'flex';
+                document.querySelector('.install-banner-texto small').textContent =
+                    'Toca el ⬇️ en la barra de Chrome para instalar';
+                bannerTimer = setTimeout(ocultarBanner, 5 * 60 * 1000);
+            }
+        }, 3000);
 
         // ── SERVICE WORKER ──
         if ('serviceWorker' in navigator) {
