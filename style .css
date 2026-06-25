@@ -740,4 +740,18 @@ footer p {
     .banda { gap: 1.5rem; padding: 1.2rem 1.5rem; }
     footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
     #install-banner { bottom: 16px; }
+
+    /* ── BOTÓN BANNER MEDIO EN MÓVIL ── */
+    .banner-medio { padding: 3rem 1.5rem; }
+    .banner-medio .btn-primario {
+        display: block;
+        width: 85%;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 0.75rem;
+        padding: 1rem 1rem;
+        white-space: normal;
+        line-height: 1.5;
+        word-break: break-word;
+    }
 }
