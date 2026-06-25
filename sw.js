@@ -2,7 +2,7 @@ const CACHE_NAME = 'expresate-con-amor-v1';
 
 const urlsToCache = [
   '/',
-  '/manifest.json'
+  'manifest.json'
 ];
 
 // Instalar Service Worker
