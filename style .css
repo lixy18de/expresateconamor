@@ -45,6 +45,12 @@ body {
     opacity: 0.6;
 }
 
+/* En móvil quitar cursor none para que los toques funcionen */
+@media (max-width: 768px) {
+    * { cursor: auto !important; }
+    .cursor, .cursor-ring { display: none; }
+}
+
 /* ── BANNER INSTALAR PWA ── */
 #install-banner {
     display: none;
