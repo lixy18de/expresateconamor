@@ -606,22 +606,23 @@
             content: '🌹';
             position: absolute;
             font-size: 18rem;
-            top: 50%;
-            left: -4rem;
+            top: 50%; left: -4rem;
             transform: translateY(-50%);
             opacity: 0.06;
             line-height: 1;
+            pointer-events: none;
+            z-index: 0;
         }
-
         .banner-medio::after {
             content: '🌹';
             position: absolute;
             font-size: 18rem;
-            top: 50%;
-            right: -4rem;
+            top: 50%; right: -4rem;
             transform: translateY(-50%) scaleX(-1);
             opacity: 0.06;
             line-height: 1;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .banner-medio h2 {
@@ -1102,7 +1103,11 @@
     <div class="banner-medio">
         <h2>¿Tienes algo <em>especial</em> en mente?</h2>
         <p>Creamos arreglos personalizados para bodas, quinceañeras, aniversarios y cualquier ocasión que merezca flores.</p>
-        <a href="https://wa.me/50372931357" class="btn-primario">Pedir personalizado</a>
+        <a href="https://wa.me/50372931357" 
+           class="btn-primario" 
+           style="position:relative; z-index:99; display:inline-block;">
+           Pedir personalizado
+        </a>
     </div>
 
     <!-- CONTACTO -->
