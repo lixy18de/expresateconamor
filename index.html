@@ -809,7 +809,7 @@
     <div class="cursor-ring" id="cursorRing"></div>
 
     <!-- ── BANNER DE INSTALACIÓN PWA ── -->
-    <div id="install-banner">
+    <div id="install-banner" style="display:flex;">
         <div class="install-banner-icon">🌹</div>
         <div class="install-banner-texto">
             <strong>Exprésate con Amor</strong>
@@ -1193,63 +1193,49 @@
         const installBanner = document.getElementById('install-banner');
         const btnInstalar   = document.getElementById('btn-instalar');
         const cerrarBanner  = document.getElementById('cerrar-banner');
-        let bannerTimer = null;
 
-        function mostrarBanner() {
-            installBanner.style.display = 'flex';
-            clearTimeout(bannerTimer);
-            bannerTimer = setTimeout(() => {
-                installBanner.style.display = 'none';
-            }, 5 * 60 * 1000);
-        }
-
-        function ocultarBanner() {
-            installBanner.style.display = 'none';
-            clearTimeout(bannerTimer);
-        }
-
-        // Captura el evento antes de que Chrome lo muestre
+        // Captura el evento de instalación
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            console.log('PWA: beforeinstallprompt capturado');
-            mostrarBanner();
+            console.log('PWA lista para instalar');
         });
 
-        // Botón instalar — usa deferredPrompt si existe, si no abre el ⬇️ de Chrome
+        // Clic en Instalar
         btnInstalar.addEventListener('click', async () => {
-            ocultarBanner();
             if (deferredPrompt) {
+                // Tiene el prompt — instala directo
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                console.log('Instalación:', outcome);
+                console.log('Resultado:', outcome);
                 deferredPrompt = null;
+                installBanner.style.display = 'none';
+            } else {
+                // No tiene prompt — manda al menú de Chrome
+                installBanner.querySelector('small').textContent = 'Toca ⋮ → "Añadir a pantalla de inicio"';
             }
         });
 
-        // Cerrar banner
-        cerrarBanner.addEventListener('click', ocultarBanner);
+        // Cerrar banner — se oculta 5 minutos
+        cerrarBanner.addEventListener('click', () => {
+            installBanner.style.display = 'none';
+            setTimeout(() => {
+                if (!window.matchMedia('(display-mode: standalone)').matches) {
+                    installBanner.style.display = 'flex';
+                }
+            }, 5 * 60 * 1000);
+        });
 
-        // Ocultar si ya instaló
+        // Ocultar si ya está instalada
         window.addEventListener('appinstalled', () => {
-            ocultarBanner();
-            deferredPrompt = null;
+            installBanner.style.display = 'none';
             console.log('PWA instalada');
         });
 
-        // SOLUCIÓN ANDROID: si después de 3 segundos no disparó el evento
-        // pero Chrome sí muestra el ⬇️, mostramos el banner igual
-        setTimeout(() => {
-            if (deferredPrompt) return; // ya se capturó, no hacer nada
-            // Verificar si el sitio cumple criterios PWA
-            if ('serviceWorker' in navigator && window.matchMedia('(display-mode: browser)').matches) {
-                // Mostrar banner informativo que dirige al ⬇️ de Chrome
-                installBanner.style.display = 'flex';
-                document.querySelector('.install-banner-texto small').textContent =
-                    'Toca el ⬇️ en la barra de Chrome para instalar';
-                bannerTimer = setTimeout(ocultarBanner, 5 * 60 * 1000);
-            }
-        }, 3000);
+        // Si ya está instalada como app, ocultar banner
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            installBanner.style.display = 'none';
+        }
 
         // ── SERVICE WORKER ──
         if ('serviceWorker' in navigator) {
