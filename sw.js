@@ -7,8 +7,8 @@ const ARCHIVOS_CORE = [
   BASE + '/index.html',
   BASE + '/style.css',
   BASE + '/manifest.json',
-  BASE + '/icons/icon-192.png',
-  BASE + '/icons/icon-512.png'
+  BASE + '/icon-192.png',
+  BASE + '/icon-512.png'
 ];
 
 // Instalar — solo archivos core, sin imágenes para evitar errores
