@@ -10,13 +10,13 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "/expresateconamor/icons/icon-192.png",
+      "src": "/expresateconamor/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/expresateconamor/icons/icon-512.png",
+      "src": "/expresateconamor/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
