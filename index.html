@@ -1194,6 +1194,16 @@
         const btnInstalar   = document.getElementById('btn-instalar');
         const cerrarBanner  = document.getElementById('cerrar-banner');
 
+        // Si ya está instalada como app, ocultar banner inmediatamente
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            installBanner.style.display = 'none';
+        }
+
+        // También verificar con localStorage si ya instaló antes
+        if (localStorage.getItem('pwa-instalada') === 'si') {
+            installBanner.style.display = 'none';
+        }
+
         // Captura el evento de instalación
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -1204,38 +1214,36 @@
         // Clic en Instalar
         btnInstalar.addEventListener('click', async () => {
             if (deferredPrompt) {
-                // Tiene el prompt — instala directo
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 console.log('Resultado:', outcome);
                 deferredPrompt = null;
-                installBanner.style.display = 'none';
+                if (outcome === 'accepted') {
+                    installBanner.style.display = 'none';
+                    localStorage.setItem('pwa-instalada', 'si');
+                }
             } else {
-                // No tiene prompt — manda al menú de Chrome
                 installBanner.querySelector('small').textContent = 'Toca ⋮ → "Añadir a pantalla de inicio"';
             }
         });
 
-        // Cerrar banner — se oculta 5 minutos
+        // Cerrar banner — vuelve en 5 minutos si no ha instalado
         cerrarBanner.addEventListener('click', () => {
             installBanner.style.display = 'none';
             setTimeout(() => {
-                if (!window.matchMedia('(display-mode: standalone)').matches) {
+                if (!window.matchMedia('(display-mode: standalone)').matches &&
+                    localStorage.getItem('pwa-instalada') !== 'si') {
                     installBanner.style.display = 'flex';
                 }
             }, 5 * 60 * 1000);
         });
 
-        // Ocultar si ya está instalada
+        // Ocultar cuando se instala exitosamente
         window.addEventListener('appinstalled', () => {
             installBanner.style.display = 'none';
+            localStorage.setItem('pwa-instalada', 'si');
             console.log('PWA instalada');
         });
-
-        // Si ya está instalada como app, ocultar banner
-        if (window.matchMedia('(display-mode: standalone)').matches) {
-            installBanner.style.display = 'none';
-        }
 
         // ── SERVICE WORKER ──
         if ('serviceWorker' in navigator) {
