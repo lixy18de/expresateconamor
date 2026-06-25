@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exprésate con Amor</title>
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/expresateconamor/manifest.json">
     <meta name="theme-color" content="#b5194e">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Exprésate con Amor">
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="/expresateconamor/icons/icon-192.png">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" type="text/css"/>
+    <link rel="stylesheet" href="/expresateconamor/style.css" type="text/css"/>
 
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -892,7 +892,7 @@
             <div class="producto-card fade-up" data-cat="eternas">
                 <div class="producto-badge dorado">Más vendido</div>
                 <div class="producto-img">
-                    <img src="/images/rosa-eterna-roja.webp"
+                    <img src="/expresateconamor/images/rosa-eterna-roja.webp"
                          alt="Rosa Eterna Roja en cúpula de vidrio"
                          loading="lazy"
                          onerror="this.parentElement.innerHTML='<div class=\'producto-img-emoji bg-rojo\'>🌹</div>'">
@@ -912,7 +912,7 @@
             <div class="producto-card fade-up" data-cat="eternas">
                 <div class="producto-badge">Nuevo</div>
                 <div class="producto-img">
-                    <img src="/images/rosa-eterna-lila.webp"
+                    <img src="/expresateconamor/images/rosa-eterna-lila.webp"
                          alt="Rosa Eterna Lila"
                          loading="lazy"
                          onerror="this.parentElement.innerHTML='<div class=\'producto-img-emoji bg-lila\'>🪷</div>'">
@@ -931,7 +931,7 @@
             <!-- Imagen: docena-eterna.webp — caja negra con rosas rojas -->
             <div class="producto-card fade-up" data-cat="eternas">
                 <div class="producto-img">
-                    <img src="/images/docena-eterna.webp"
+                    <img src="/expresateconamor/images/docena-eterna.webp"
                          alt="Docenas de rosas eternas"
                          loading="lazy"
                          onerror="this.parentElement.innerHTML='<div class=\'producto-img-emoji bg-dorado\'>✨</div>'">
@@ -952,7 +952,7 @@
             <div class="producto-card fade-up" data-cat="naturales">
                 <div class="producto-badge">Clásico</div>
                 <div class="producto-img">
-                    <img src="/images/docena-rosas.webp"
+                    <img src="/expresateconamor/images/docena-rosas.webp"
                          alt="Docena de Rosas"
                          loading="lazy"
                          onerror="this.parentElement.innerHTML='<div class=\'producto-img-emoji bg-rosa\'>💐</div>'">
@@ -971,7 +971,7 @@
             <!-- Imagen: bouquet-primaveral.webp — caja rosada con flores y chocolates -->
             <div class="producto-card fade-up" data-cat="naturales">
                 <div class="producto-img">
-                    <img src="/images/bouquet-primaveral.webp"
+                    <img src="/expresateconamor/images/bouquet-primaveral.webp"
                          alt="Bouquet Primaveral"
                          loading="lazy"
                          onerror="this.parentElement.innerHTML='<div class=\'producto-img-emoji bg-multicolor\'>🌷</div>'">
@@ -991,7 +991,7 @@
             <div class="producto-card fade-up" data-cat="naturales">
                 <div class="producto-badge dorado">Premium</div>
                 <div class="producto-img">
-                    <img src="/images/ramo-12-rosas.webp"
+                    <img src="/expresateconamor/images/ramo-12-rosas.webp"
                          alt="Ramo de 12 Rosas"
                          loading="lazy"
                          onerror="this.parentElement.innerHTML='<div class=\'producto-img-emoji bg-rojo\'>🌹</div>'">
@@ -1222,7 +1222,7 @@
         // ── SERVICE WORKER ──
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
+                navigator.serviceWorker.register('/expresateconamor/sw.js')
                     .then(r => console.log('SW activo:', r.scope))
                     .catch(e => console.error('SW error:', e));
             });
