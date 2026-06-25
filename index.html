@@ -1132,7 +1132,12 @@
 
     <!-- FOOTER -->
     <footer>
-        <div class="footer-logo">🌹 Exprésate con Amor</div>
+        <div class="footer-logo">
+            🌹 Exprésate con Amor
+            <div style="font-family:'Jost',sans-serif; font-size:0.7rem; color:var(--dorado); font-weight:300; margin-top:4px; letter-spacing:0.08em;">
+                Desarrollado por Lixy Dayana Gomez
+            </div>
+        </div>
         <p>Flores para cada momento especial · El Salvador</p>
     </footer>
 
@@ -1179,44 +1184,53 @@
         document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
         // ── BOTÓN INSTALAR PWA ──
-        let deferredPrompt;
+        let deferredPrompt = null;
         const installBanner = document.getElementById('install-banner');
         const btnInstalar   = document.getElementById('btn-instalar');
         const cerrarBanner  = document.getElementById('cerrar-banner');
-        let bannerTimer;
+        let bannerTimer = null;
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-
-            // Mostrar banner
+        function mostrarBanner() {
+            if (!deferredPrompt) return;
             installBanner.style.display = 'flex';
-
-            // Ocultarlo automáticamente después de 5 minutos
+            // Se oculta solo después de 5 minutos
             bannerTimer = setTimeout(() => {
                 installBanner.style.display = 'none';
             }, 5 * 60 * 1000);
+        }
+
+        // Captura el evento ANTES de que Chrome lo muestre solo
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('PWA: listo para instalar');
+            // Pequeño delay para que el SW esté activo
+            setTimeout(mostrarBanner, 1500);
         });
 
+        // Botón instalar
         btnInstalar.addEventListener('click', async () => {
             if (!deferredPrompt) return;
+            installBanner.style.display = 'none';
+            clearTimeout(bannerTimer);
             deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
             console.log('Instalación:', outcome);
             deferredPrompt = null;
-            installBanner.style.display = 'none';
-            clearTimeout(bannerTimer);
         });
 
+        // Cerrar banner manualmente
         cerrarBanner.addEventListener('click', () => {
             installBanner.style.display = 'none';
             clearTimeout(bannerTimer);
         });
 
-        // Ocultar banner si ya está instalada
+        // Ocultar si ya instaló
         window.addEventListener('appinstalled', () => {
             installBanner.style.display = 'none';
             clearTimeout(bannerTimer);
+            deferredPrompt = null;
+            console.log('PWA instalada correctamente');
         });
 
         // ── SERVICE WORKER ──
